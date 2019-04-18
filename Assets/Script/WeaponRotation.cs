@@ -9,7 +9,7 @@ public class WeaponRotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
 
@@ -20,22 +20,17 @@ public class WeaponRotation : MonoBehaviour
         return (Input.GetAxis("Mouse X") != 0 || (Input.GetAxis("Mouse Y") != 0));
     }
 
+    public float speed = 5f;
     // Update is called once per frame
     void Update()
     {
 
-        if (HasMouseMoved())
-        {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 0;
+            Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            float rotationalAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            rotationalAngle -= 180;
+            Quaternion rotation = Quaternion.AngleAxis(rotationalAngle, Vector3.forward);
 
-            Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
-            mousePos.x = mousePos.x - objectPos.x;
-            mousePos.y = mousePos.y - objectPos.y;
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
 
-            float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-            angle -= 180;
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        }
     }
 }

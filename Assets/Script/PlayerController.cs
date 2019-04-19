@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveVelocity;
 
+    public Vector2 getpos()
+    {
+        return rb.position;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

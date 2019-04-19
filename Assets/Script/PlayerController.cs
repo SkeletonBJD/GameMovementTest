@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //移动速度
     public float speed;
 
     private Rigidbody2D rb;

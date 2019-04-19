@@ -44,6 +44,7 @@ public class WeaponRotation : MonoBehaviour
         float D = 0;
         if (attacking)
         {
+            transform.position = transform.parent.position;
             Debug.Log("Attack timer: " + attacktimer);
             attacktimer -= Time.deltaTime;
             if (attacktimer < 0)
@@ -51,15 +52,13 @@ public class WeaponRotation : MonoBehaviour
                 attacktimer = 0;
                 attacking = false;
             }
-            D = -0.1f * (attacktimer - attackspeed/2)/attackspeed;
+            float t = 4* ((attackspeed - attacktimer) / attackspeed - 0.5f);
+            D = 0.2f * t*t;
             transform.Translate(D, 0, 0);
         }
-        else
-        {
-            float rotationalAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rotationalAngle -= 180;
-            Quaternion rotation = Quaternion.AngleAxis(rotationalAngle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
-        }
+        float rotationalAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rotationalAngle -= 180;
+        Quaternion rotation = Quaternion.AngleAxis(rotationalAngle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
     }
 }
